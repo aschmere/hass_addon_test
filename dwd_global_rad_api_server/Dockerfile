@@ -1,4 +1,12 @@
-FROM ghcr.io/home-assistant/amd64-base:3.20
+ARG BUILD_FROM=ghcr.io/hassio-addons/base:16.0.0
+# hadolint ignore=DL3006
+FROM ${BUILD_FROM}
+
+# Set shell
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Add env
+ENV TERM="xterm-256color"
 
 # Install build tools, HDF5, netCDF, PROJ libraries, Python, and pip
 RUN apk update && apk add --no-cache \
@@ -48,5 +56,5 @@ RUN chmod +x /etc/services.d/dwd_global_rad_api_server/finish
 RUN chmod +x /etc/services.d/dwd_global_rad_api_server/run
 
 # Run the application using S6 init system
-ENTRYPOINT ["/bin/sh"]
+ENTRYPOINT ["/init"]
 
