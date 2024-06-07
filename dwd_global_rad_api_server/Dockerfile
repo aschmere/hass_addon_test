@@ -48,5 +48,5 @@ RUN chmod +x /etc/services.d/dwd_global_rad_api_server/finish
 RUN chmod +x /etc/services.d/dwd_global_rad_api_server/run
 
 # Run the application using S6 init system
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["/bin/sh"]
 

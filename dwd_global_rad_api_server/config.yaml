@@ -9,5 +9,5 @@ arch:
   - aarch64
   - amd64
   - i386
-image: "aschmere/dwd_global_rad_api_server-{arch}"
+#image: "aschmere/dwd_global_rad_api_server-{arch}"
 
