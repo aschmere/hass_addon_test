@@ -1,0 +1,4 @@
+#!/usr/bin/execlineb -S0
+
+# Print an info message
+echo "Application stopped."

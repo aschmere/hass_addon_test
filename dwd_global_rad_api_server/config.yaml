@@ -1,0 +1,13 @@
+# https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
+name: DWD Global Rad Api Server
+version: "1.3.0"
+slug: dwd_global_rad_api_server
+description: DWD Global Rad Api Server
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+image: "aschmere/dwd_global_rad_api_server-{arch}"
+

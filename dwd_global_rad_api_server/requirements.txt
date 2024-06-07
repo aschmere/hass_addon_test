@@ -1,0 +1,9 @@
+matplotlib
+cartopy
+numpy
+xarray
+netCDF4
+flask
+requests
+dwd_global_radiation
+pillow
