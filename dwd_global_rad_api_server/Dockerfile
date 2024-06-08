@@ -25,6 +25,8 @@ RUN apk update && apk add --no-cache \
     python3 \
     python3-dev \
     py3-pip \
+    geos \
+    geos-dev \
     && rm -rf /var/cache/apk/*
 
 # Set environment variables for PROJ
