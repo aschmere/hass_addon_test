@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: DWD Global Rad Api Server
-version: "1.4.2"
+version: "1.4.3"
 slug: dwd_global_rad_api_server
 description: DWD Global Rad Api Server
 arch:
@@ -11,4 +11,6 @@ arch:
   - i386
 image: "aschmere/dwd_global_rad_api_server-{arch}"
 init: false
+ports:
+  5001/tcp: 22
 
