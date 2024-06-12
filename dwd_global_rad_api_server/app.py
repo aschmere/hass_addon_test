@@ -100,5 +100,20 @@ def fetch_measurements():
         return jsonify({'error': 'Forecast data not found'}), 404
 
     return jsonify({'message': 'Measurement data is available'}), 200
+
+@app.route('/locations/<name>', methods=['DELETE'])
+def remove_location(name):
+    """Remove a specific location by name."""
+    try:
+        objGlobalRadiation.remove_location(name)
+        return jsonify({'status': 'Location removed successfully'}), 200
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
+@app.route('/status', methods=['GET'])
+
+def get_status():
+    """Endpoint to check if the API server is running."""
+    return '', 204  # No Content status
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
