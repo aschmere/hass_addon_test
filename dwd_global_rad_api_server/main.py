@@ -10,9 +10,9 @@ from matplotlib.animation import PillowWriter
 import logging
 
 # Set up logging configuration to show only warnings and errors
-logging.basicConfig(level=logging.WARNING)
-logging.getLogger('fiona').setLevel(logging.WARNING)
-logging.getLogger('matplotlib').setLevel(logging.WARNING)
+#logging.basicConfig(level=logging.WARNING)
+#logging.getLogger('fiona').setLevel(logging.WARNING)
+#logging.getLogger('matplotlib').setLevel(logging.WARNING)
 
 def create_animation(ds, custom_locations):
     lats = ds['lat'].values

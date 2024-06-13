@@ -11,24 +11,42 @@ app = Flask(__name__)
 
 # Instantiate main object
 objGlobalRadiation = dgr.GlobalRadiation()
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
+# Configure logging with a custom formatter
+class CustomFormatter(logging.Formatter):
+    def format(self, record):
+        log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        formatter = logging.Formatter(log_format, datefmt='%Y-%m-%d %H:%M:%S')
+        return formatter.format(record)
+
+# Remove the default Flask handlers if any
+for handler in app.logger.handlers[:]:
+    app.logger.removeHandler(handler)
+handler = logging.StreamHandler()
+handler.setFormatter(CustomFormatter())
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.INFO)
+
+app.logger.propagate = False
+
 
 @app.route('/process', methods=['POST'])
 def process():
-    if 'dataset' not in request.files or 'locations' not in request.form:
-        app.logger.error("Missing dataset or locations parameter")
-        return jsonify({'error': 'Missing dataset or locations parameter'}), 400
-
-    dataset_file = request.files['dataset']
-    locations = json.loads(request.form['locations'])
-
     try:
-        app.logger.info(f"Locations received: {locations}")
+        if 'dataset' in request.files:
+            app.logger.info("Dataset provided in request")
+            dataset_file = request.files['dataset']
+            ds = pickle.load(dataset_file)
+        else:
+            app.logger.info("No dataset provided, fetching internally")
+            objGlobalRadiation.fetch_forecasts()
+            ds = objGlobalRadiation.forecast_data.all_grid_forecasts
 
-        app.logger.info("Loading dataset")
-        ds = pickle.load(dataset_file)
-        app.logger.info("Dataset loaded successfully")
+        if 'locations' in request.form:
+            app.logger.info("Locations provided in request")
+            locations = json.loads(request.form['locations'])
+        else:
+            app.logger.info("No locations provided, using internal locations")
+            locations = [{"lat": loc.latitude, "lon": loc.longitude} for loc in objGlobalRadiation.locations]
 
         app.logger.info("Creating animation")
         output_file = main.create_animation(ds, locations)
