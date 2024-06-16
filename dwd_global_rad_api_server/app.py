@@ -6,6 +6,7 @@ import xarray as xr
 import main
 import logging
 import dwd_global_radiation as dgr
+from datetime import datetime, timezone
 
 app = Flask(__name__)
 
@@ -28,6 +29,24 @@ app.logger.setLevel(logging.INFO)
 
 app.logger.propagate = False
 
+
+@app.route('/locations/<name>/forecast/<int:number_of_hours>h', methods=['GET'])
+def get_forecast_for_future_hour(name, number_of_hours):
+    try:
+        # Get the current datetime
+        datetime_input = datetime.now(timezone.utc)
+        
+        # Get the location
+        location = objGlobalRadiation.get_location_by_name(name)
+        if not location:
+            return jsonify({'error': 'Location not found'}), 404
+
+        # Get the forecast for the specified future hour
+        forecast = location.get_forecast_for_future_hour(datetime_input, number_of_hours)
+        return jsonify(forecast)
+    except Exception as e:
+        app.logger.error(f"Error fetching forecast for future hour: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/process', methods=['POST'])
 def process():
