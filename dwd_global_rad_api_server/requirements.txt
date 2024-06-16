@@ -1,8 +1,8 @@
 matplotlib
 cartopy
-numpy
+numpy==1.26.4
 xarray
-netCDF4
+netCDF4==1.6.5
 flask
 requests
 dwd_global_radiation
