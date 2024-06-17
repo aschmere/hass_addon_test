@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Print an info message
+echo "Starting the application..."
+
+# Activate the virtual environment
+source /app/venv/bin/activate
+
+# Debug: Print which Python is being used
+which python
+
+# Debug: Print Python version
+python --version
+
+# Debug: List files in /app directory
+ls -l /app
+
+# Start the application
+exec python /app/app.py
+
+
