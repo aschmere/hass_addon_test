@@ -1,7 +1,7 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: DWD Global Rad Api Server (Development)
 version: "0.1.0"
-slug: dwd_global_rad_api_server
+slug: dwd_global_rad_api_server_dev
 description: DWD Global Rad Api Server
 arch:
   - armv7
