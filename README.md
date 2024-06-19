@@ -14,6 +14,11 @@ Originally, the plan was to interact with the Python library directly within the
 
 This add-on is for personal experiments and testing/debugging. It is not recommended for productive use and will likely not work with the integration.
 
+## Disclaimer
+
+**DISCLAIMER:** This project is a private open-source project and is not affiliated with the German public meteorology service institute "Deutscher Wetterdienst" (DWD). However, it uses its publicly available data interfaces.
+
+
 [![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Faschmere%2Fhass_addon_test)
 
 
