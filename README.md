@@ -1,24 +1,22 @@
-# Example Home Assistant add-on repository
+# Arnos Home Assistant Add-on Repository
 
-This repository can be used as a "blueprint" for add-on development to help you get started.
+This is my repository containing all Home Assistant Add-ons I developed over time. Currently, there are two add-ons available:
 
-Add-on documentation: <https://developers.home-assistant.io/docs/add-ons>
+## DWD Global Radiation API Server
+
+This add-on is a prerequisite for my DWD Global Radiation Home Assistant Integration. It provides the necessary API services for the integration to work correctly. You can find more details in the [README](https://github.com/aschmere/dwd_global_rad_hass/blob/main/README.md).
+
+The add-on uses a Python library to retrieve global radiation measurement and forecast data from the "Deutscher Wetterdienst" (DWD). For more information about the library, visit the [DWD Global Radiation repository](https://github.com/aschmere/dwd_global_radiation).
+
+Originally, the plan was to interact with the Python library directly within the Home Assistant integration. However, as of June 2024, the Home Assistant Integration framework cannot install Python packages with complex requirements, like the `netCDF4` package, into its core Docker container. The `netCDF4` package is essential for processing the DWD data (see [netCDF4 documentation](https://unidata.github.io/netcdf4-python/)). By using an add-on, a separate Docker image can be created to fulfill all Python requirements.
+
+## DWD Global Radiation API Server (Development)
+
+This add-on is for personal experiments and testing/debugging. It is not recommended for productive use and will likely not work with the integration.
 
 [![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Faschmere%2Fhass_addon_test)
 
-## Add-ons
 
-This repository contains the following add-ons
-
-### [Example add-on](./example)
-
-![Supports aarch64 Architecture][aarch64-shield]
-![Supports amd64 Architecture][amd64-shield]
-![Supports armhf Architecture][armhf-shield]
-![Supports armv7 Architecture][armv7-shield]
-![Supports i386 Architecture][i386-shield]
-
-_Example add-on to use as a blueprint for new add-ons._
 
 <!--
 
