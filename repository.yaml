@@ -1,4 +1,4 @@
 # https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
-name: Arnos Home Assistant Add-On Test Repository
+name: Arnos Home Assistant Add-On Repository
 url: 'https://github.com/aschmere/hass_addon_test'
-maintainer: Test
+maintainer: Arno Schmerer <arno@schmerer.de>
