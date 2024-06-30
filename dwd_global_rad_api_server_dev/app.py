@@ -7,12 +7,13 @@ import main
 import logging
 import dwd_global_radiation as dgr
 from datetime import datetime, timezone
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 
 # Instantiate main object
 objGlobalRadiation = dgr.GlobalRadiation()
-# Configure logging with a custom formatter
+
 class CustomFormatter(logging.Formatter):
     def format(self, record):
         log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -33,15 +34,11 @@ app.logger.propagate = False
 @app.route('/locations/<name>/forecast/<int:number_of_hours>h', methods=['GET'])
 def get_forecast_for_future_hour(name, number_of_hours):
     try:
-        # Get the current datetime
         datetime_input = datetime.now(timezone.utc)
-        
-        # Get the location
         location = objGlobalRadiation.get_location_by_name(name)
         if not location:
             return jsonify({'error': 'Location not found'}), 404
 
-        # Get the forecast for the specified future hour
         forecast = location.get_forecast_for_future_hour(datetime_input, number_of_hours)
         return jsonify(forecast)
     except Exception as e:
@@ -75,8 +72,6 @@ def process():
     except Exception as e:
         app.logger.error(f"Error processing request: {e}")
         return jsonify({'error': str(e)}), 500
-# Instantiate main object
-objGlobalRadiation = dgr.GlobalRadiation()
 
 @app.route('/locations', methods=['GET'])
 def get_locations():
@@ -85,7 +80,6 @@ def get_locations():
         return jsonify({'error': 'No locations found'}), 404
     
     serializable_locations = [loc.to_dict() for loc in locations]
-    print(json.dumps(serializable_locations, indent=2))  # Pretty-print the JSON data
     return jsonify(serializable_locations)
 
 @app.route('/locations', methods=['POST'])
@@ -95,16 +89,13 @@ def add_location():
     latitude = data['latitude']
     longitude = data['longitude']
     try:
-        # Call the add_location method from the GlobalRadiation class
         objGlobalRadiation.add_location(name=name, latitude=latitude, longitude=longitude)
         return jsonify({'status': 'Location added successfully'}), 200
     except ValueError as e:
-        # Handle the exception and return a 400 Bad Request response
         return jsonify({'error': str(e)}), 400
 
 @app.route('/locations/<name>', methods=['GET'])
 def get_location_by_name(name):
-    """Fetch a specific location by name."""
     location = objGlobalRadiation.get_location_by_name(name)
     if location is None:
         return jsonify({'error': 'Location not found'}), 404
@@ -113,10 +104,7 @@ def get_location_by_name(name):
 
 @app.route('/forecasts', methods=['GET'])
 def fetch_forecasts():
-    """Check if forecast data is available."""
-    # Fetch the forecast data from the DWD servers
     objGlobalRadiation.fetch_forecasts()
-
     forecast_data = objGlobalRadiation.forecast_data
     if forecast_data is None:
         return jsonify({'error': 'Forecast data not found'}), 404
@@ -125,13 +113,8 @@ def fetch_forecasts():
 
 @app.route('/measurements', methods=['GET'])
 def fetch_measurements():
-    """Fetch the measurement data for a specific location by name."""
-    
-    # Get the 'hours' query parameter from the request, default to 3 if not provided
     hours = request.args.get('hours', default=3, type=int)
-    # Fetch the measurement data from the DWD servers
     objGlobalRadiation.fetch_measurements(max_hour_age_of_measurement=hours)
-
     measurement_data = objGlobalRadiation.measurement_data
     if measurement_data is None:
         return jsonify({'error': 'Forecast data not found'}), 404
@@ -140,17 +123,15 @@ def fetch_measurements():
 
 @app.route('/locations/<name>', methods=['DELETE'])
 def remove_location(name):
-    """Remove a specific location by name."""
     try:
         objGlobalRadiation.remove_location(name)
         return jsonify({'status': 'Location removed successfully'}), 200
     except ValueError as e:
         return jsonify({'error': str(e)}), 404
-@app.route('/status', methods=['GET'])
 
+@app.route('/status', methods=['GET'])
 def get_status():
-    """Endpoint to check if the API server is running."""
-    return '', 204  # No Content status
+    return '', 204
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
