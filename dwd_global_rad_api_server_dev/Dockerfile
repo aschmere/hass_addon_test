@@ -55,8 +55,8 @@ COPY --from=builder /app /app
 # Expose the port the app runs on
 EXPOSE 5001
 
-# Run the application using Gunicorn with stdout/stderr logging
-CMD ["gunicorn", "--workers", "1", "--threads", "1", "-b", "0.0.0.0:5001", "--capture-output", "--access-logfile", "-", "--error-logfile", "-", "app:app"]
+# Run the application using Gunicorn with stdout/stderr logging and a timeout of 180 seconds
+CMD ["gunicorn", "--workers", "1", "--threads", "1", "-b", "0.0.0.0:5001", "--capture-output", "--access-logfile", "-", "--error-logfile", "-", "--timeout", "180", "app:app"]
 
 
 
