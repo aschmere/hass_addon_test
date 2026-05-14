@@ -5,5 +5,5 @@ xarray
 netCDF4
 flask
 requests
-dwd_global_radiation
+dwd_global_radiation==1.1.0rc6
 pillow
